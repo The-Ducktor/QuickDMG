@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		253D07D82D3B353500BD0C9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 253D07BE2D3B353300BD0C9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 253D07C52D3B353300BD0C9F;
+			remoteInfo = QuickDMG;
+		};
+		253D07E22D3B353500BD0C9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 253D07BE2D3B353300BD0C9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 253D07C52D3B353300BD0C9F;
+			remoteInfo = QuickDMG;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		253D07C62D3B353300BD0C9F /* QuickDMG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickDMG.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		253D07D72D3B353500BD0C9F /* QuickDMGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickDMGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		253D07E12D3B353500BD0C9F /* QuickDMGUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickDMGUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		253D07C82D3B353300BD0C9F /* QuickDMG */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = QuickDMG;
+			sourceTree = "<group>";
+		};
+		253D07DA2D3B353500BD0C9F /* QuickDMGTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = QuickDMGTests;
+			sourceTree = "<group>";
+		};
+		253D07E42D3B353500BD0C9F /* QuickDMGUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = QuickDMGUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		253D07C32D3B353300BD0C9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07D42D3B353500BD0C9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07DE2D3B353500BD0C9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		253D07BD2D3B353300BD0C9F = {
+			isa = PBXGroup;
+			children = (
+				253D07C82D3B353300BD0C9F /* QuickDMG */,
+				253D07DA2D3B353500BD0C9F /* QuickDMGTests */,
+				253D07E42D3B353500BD0C9F /* QuickDMGUITests */,
+				253D07C72D3B353300BD0C9F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		253D07C72D3B353300BD0C9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				253D07C62D3B353300BD0C9F /* QuickDMG.app */,
+				253D07D72D3B353500BD0C9F /* QuickDMGTests.xctest */,
+				253D07E12D3B353500BD0C9F /* QuickDMGUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		253D07C52D3B353300BD0C9F /* QuickDMG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 253D07EB2D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMG" */;
+			buildPhases = (
+				253D07C22D3B353300BD0C9F /* Sources */,
+				253D07C32D3B353300BD0C9F /* Frameworks */,
+				253D07C42D3B353300BD0C9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				253D07C82D3B353300BD0C9F /* QuickDMG */,
+			);
+			name = QuickDMG;
+			packageProductDependencies = (
+			);
+			productName = QuickDMG;
+			productReference = 253D07C62D3B353300BD0C9F /* QuickDMG.app */;
+			productType = "com.apple.product-type.application";
+		};
+		253D07D62D3B353500BD0C9F /* QuickDMGTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 253D07EE2D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMGTests" */;
+			buildPhases = (
+				253D07D32D3B353500BD0C9F /* Sources */,
+				253D07D42D3B353500BD0C9F /* Frameworks */,
+				253D07D52D3B353500BD0C9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				253D07D92D3B353500BD0C9F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				253D07DA2D3B353500BD0C9F /* QuickDMGTests */,
+			);
+			name = QuickDMGTests;
+			packageProductDependencies = (
+			);
+			productName = QuickDMGTests;
+			productReference = 253D07D72D3B353500BD0C9F /* QuickDMGTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		253D07E02D3B353500BD0C9F /* QuickDMGUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 253D07F12D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMGUITests" */;
+			buildPhases = (
+				253D07DD2D3B353500BD0C9F /* Sources */,
+				253D07DE2D3B353500BD0C9F /* Frameworks */,
+				253D07DF2D3B353500BD0C9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				253D07E32D3B353500BD0C9F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				253D07E42D3B353500BD0C9F /* QuickDMGUITests */,
+			);
+			name = QuickDMGUITests;
+			packageProductDependencies = (
+			);
+			productName = QuickDMGUITests;
+			productReference = 253D07E12D3B353500BD0C9F /* QuickDMGUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		253D07BE2D3B353300BD0C9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					253D07C52D3B353300BD0C9F = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					253D07D62D3B353500BD0C9F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 253D07C52D3B353300BD0C9F;
+					};
+					253D07E02D3B353500BD0C9F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 253D07C52D3B353300BD0C9F;
+					};
+				};
+			};
+			buildConfigurationList = 253D07C12D3B353300BD0C9F /* Build configuration list for PBXProject "QuickDMG" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 253D07BD2D3B353300BD0C9F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 253D07C72D3B353300BD0C9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				253D07C52D3B353300BD0C9F /* QuickDMG */,
+				253D07D62D3B353500BD0C9F /* QuickDMGTests */,
+				253D07E02D3B353500BD0C9F /* QuickDMGUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		253D07C42D3B353300BD0C9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07D52D3B353500BD0C9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07DF2D3B353500BD0C9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		253D07C22D3B353300BD0C9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07D32D3B353500BD0C9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		253D07DD2D3B353500BD0C9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		253D07D92D3B353500BD0C9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 253D07C52D3B353300BD0C9F /* QuickDMG */;
+			targetProxy = 253D07D82D3B353500BD0C9F /* PBXContainerItemProxy */;
+		};
+		253D07E32D3B353500BD0C9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 253D07C52D3B353300BD0C9F /* QuickDMG */;
+			targetProxy = 253D07E22D3B353500BD0C9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		253D07E92D3B353500BD0C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		253D07EA2D3B353500BD0C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		253D07EC2D3B353500BD0C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QuickDMG/QuickDMG.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"QuickDMG/Preview Content\"";
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		253D07ED2D3B353500BD0C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = QuickDMG/QuickDMG.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"QuickDMG/Preview Content\"";
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		253D07EF2D3B353500BD0C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMGTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuickDMG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QuickDMG";
+			};
+			name = Debug;
+		};
+		253D07F02D3B353500BD0C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMGTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QuickDMG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QuickDMG";
+			};
+			name = Release;
+		};
+		253D07F22D3B353500BD0C9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMGUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = QuickDMG;
+			};
+			name = Debug;
+		};
+		253D07F32D3B353500BD0C9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6GHB87XLD6;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ninja-tech.QuickDMGUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = QuickDMG;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		253D07C12D3B353300BD0C9F /* Build configuration list for PBXProject "QuickDMG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				253D07E92D3B353500BD0C9F /* Debug */,
+				253D07EA2D3B353500BD0C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		253D07EB2D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				253D07EC2D3B353500BD0C9F /* Debug */,
+				253D07ED2D3B353500BD0C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		253D07EE2D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMGTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				253D07EF2D3B353500BD0C9F /* Debug */,
+				253D07F02D3B353500BD0C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		253D07F12D3B353500BD0C9F /* Build configuration list for PBXNativeTarget "QuickDMGUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				253D07F22D3B353500BD0C9F /* Debug */,
+				253D07F32D3B353500BD0C9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 253D07BE2D3B353300BD0C9F /* Project object */;
+}
