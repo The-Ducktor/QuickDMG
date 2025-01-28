@@ -10,8 +10,10 @@ import Foundation
 class AppInstaller {
     public var progress: Double = 0.0
     var progressUpdate: ((Double) -> Void)?
+    public var mountedDMGPath: String?
+    public var appName: String?
+    
 
-    // Mount the .dmg file
     func mountDMG(at path: String, to mountPoint: String) {
         progress = 0.2
         DispatchQueue.main.async {
@@ -68,19 +70,36 @@ class AppInstaller {
             }
 
             // Delete an existing app from /Applications
-            func deleteApp(at path: String) {
-                let fileManager = FileManager.default
-                do {
-                    if fileManager.fileExists(atPath: path) {
-                        try fileManager.removeItem(atPath: path)
-                        print("Deleted existing app at: \(path)")
-                    }
-                } catch {
-                    print("Failed to delete app: \(error)")
+    func deleteApp(at path: String) {
+        var trashedPath: NSURL? // Change to NSURL?
+        let fileManager = FileManager.default
+        do {
+            if fileManager.fileExists(atPath: path) {
+                // Using `&trashedPath` and converting to `NSURL`
+                try fileManager.trashItem(at: URL(fileURLWithPath: path), resultingItemURL: &trashedPath)
+                print("Deleted existing app at: \(path)")
+            }
+        } catch {
+            print("Failed to delete app: \(error)")
+        }
+    }
+    public static func getAppName(at path: String) -> String {
+        let fileManager = FileManager.default
+        let appURL = URL(fileURLWithPath: path)
+        do {
+            let appContents = try fileManager.contentsOfDirectory(atPath: appURL.path)
+            for item in appContents {
+                if item.hasSuffix(".app") {
+                    return item
                 }
             }
-
-
+            return "Application" // 
+        } catch {
+            print("Failed to get app name: \(error)")
+            return "Application"
+        }
+        
+    }
     // Unmount the .dmg file
     func unmountDMG(at mountPoint: String) {
         progress = 0.9
@@ -119,7 +138,6 @@ class AppInstaller {
                    self.progressUpdate?(self.progress)
                }
         let fileManager = FileManager.default
-
         do {
             let contents = try fileManager.contentsOfDirectory(atPath: sourceDirectory)
             for item in contents {
@@ -143,9 +161,11 @@ class AppInstaller {
 
     public func handleDMGFile(path: String, progressUpdate: @escaping (Double) -> Void) {
         self.progressUpdate = progressUpdate
-        let mountPoint = "/Volumes/tmp"
-        
+        let mountPoint = "/Volumes/tmp" + UUID().uuidString
+        self.mountedDMGPath = mountPoint
+
         mountDMG(at: path, to: mountPoint)
+        self.appName = AppInstaller.getAppName(at: mountPoint)
         copyApps(from: mountPoint, to: "/Applications")
         unmountDMG(at: mountPoint)
     }

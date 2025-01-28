@@ -13,6 +13,14 @@ struct QuickDMGApp: App {
         WindowGroup {
             ContentView()
                 .frame(minWidth: 350).frame(height: 55)
+                .toolbar {
+                    // Add the title here
+                    ToolbarItem(placement: .principal) {
+                        Text("QuickDMG")
+                            .font(.headline).fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
+                }
         }
         .windowStyle(HiddenTitleBarWindowStyle()) // Optional if you want hidden title bars
         .commands {
@@ -22,7 +30,6 @@ struct QuickDMGApp: App {
         .windowResizability(.contentSize) // Optional if you want to set the default window size
     }
 }
-
 
 class FileHandler: ObservableObject {
     @Published var openedFiles: [URL] = []

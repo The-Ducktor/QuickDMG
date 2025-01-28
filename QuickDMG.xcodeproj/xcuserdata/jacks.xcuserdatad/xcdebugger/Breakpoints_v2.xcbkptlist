@@ -3,4 +3,122 @@
    uuid = "3D632DA6-5B9A-40BC-9886-C9E575F892ED"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QuickDMG/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "ContentView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - b4d8431564b1402a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of QuickDMG.ContentView.progress : QuickDMG.InstallationProgress"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - 2e5e8feef90a4da2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QuickDMG.ContentView.progress.getter : QuickDMG.InstallationProgress"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - 929a24800e75cb7f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QuickDMG.ContentView.progress.setter : QuickDMG.InstallationProgress"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - 630e60221f49f7c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QuickDMG.ContentView.progress.modify : QuickDMG.InstallationProgress"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - d50b47258160fc20"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QuickDMG.ContentView.progress.modify : QuickDMG.InstallationProgress with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - ac64d08eb2e7da6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "QuickDMG.ContentView.$progress.getter : SwiftUI.ObservedObject&lt;QuickDMG.InstallationProgress&gt;.Wrapper"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23">
+               </Location>
+               <Location
+                  uuid = "CFAB5A5E-6B13-4D71-B3A5-F74389CF866B - 36777b38d1eaa9a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of QuickDMG.ContentView.init(progress: QuickDMG.InstallationProgress, progressTotal: Swift.Double, installer: QuickDMG.AppInstaller) -&gt; QuickDMG.ContentView"
+                  moduleName = "QuickDMG.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jacks/Documents/Dev/Git/Xcode/QuickDMG/QuickDMG/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
