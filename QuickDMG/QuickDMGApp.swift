@@ -1,9 +1,3 @@
-//
-//  QuickDMGApp.swift
-//  QuickDMG
-//
-//  Created by Jackson Powell on 1/18/25.
-//
 
 import SwiftUI
 
