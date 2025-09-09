@@ -1,20 +1,24 @@
 
 import Foundation
 
+extension Notification.Name {
+    static let installerProgress = Notification.Name("installerProgress")
+}
 
-class AppInstaller {
+actor AppInstaller {
     public var progress: Double = 0.0
-    var progressUpdate: ((Double) -> Void)?
     public var mountedDMGPath: String?
     public var appName: String?
-    
+
 
     func mountDMG(at path: String, to mountPoint: String) {
         progress = 0.2
+        // Post a notification to report progress (avoid capturing `self` or non-Sendable callbacks)
+        let progressForNotification = progress
         DispatchQueue.main.async {
-            self.progressUpdate?(self.progress) // Notify progress change on the main thread
+            NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": progressForNotification])
         }
-        
+
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
         process.arguments = ["attach", path, "-mountpoint", mountPoint, "-nobrowse", "-noverify"]
@@ -88,20 +92,22 @@ class AppInstaller {
                     return item
                 }
             }
-            return "Application" // 
+            return "Application" //
         } catch {
             print("Failed to get app name: \(error)")
             return "Application"
         }
-        
+
     }
     // Unmount the .dmg file
     func unmountDMG(at mountPoint: String) {
         progress = 0.9
+        // Post a notification to report progress (avoid capturing `self` or non-Sendable callbacks)
+        let progressForNotification = progress
         DispatchQueue.main.async {
-            self.progressUpdate?(self.progress) // Notify progress change on the main thread
+            NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": progressForNotification])
         }
-        
+
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
         process.arguments = ["detach", mountPoint]
@@ -118,8 +124,10 @@ class AppInstaller {
             }
             process.waitUntilExit()
             progress = 1.0
+            // Post a notification to report final progress
+            let progressForNotification = progress
             DispatchQueue.main.async {
-                self.progressUpdate?(self.progress) // Notify progress change on the main thread
+                NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": progressForNotification])
             }
         } catch {
             print("Failed to unmount the DMG: \(error)")
@@ -129,9 +137,11 @@ class AppInstaller {
     // Copy apps, notify progress as copying happens
     func copyApps(from sourceDirectory: String, to destinationDirectory: String) {
         progress = 0.6
+        // Post a notification to report progress (avoid capturing `self` or non-Sendable callbacks)
+        let progressForNotification = progress
         DispatchQueue.main.async {
-                   self.progressUpdate?(self.progress)
-               }
+            NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": progressForNotification])
+        }
         let fileManager = FileManager.default
         do {
             let contents = try fileManager.contentsOfDirectory(atPath: sourceDirectory)
@@ -153,9 +163,15 @@ class AppInstaller {
             print("Failed to copy .app files: \(error)")
         }
     }
+    private func removeExtendedAttributes(at path: String) {
+        // xattr -cx /Applications/Gopeed.app/
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/xattr")
+        process.arguments = ["-c", "-x", path]
 
-    public func handleDMGFile(path: String, progressUpdate: @escaping (Double) -> Void) {
-        self.progressUpdate = progressUpdate
+    }
+
+    public func handleDMGFile(path: String) async {
         let mountPoint = "/Volumes/tmp" + UUID().uuidString
         self.mountedDMGPath = mountPoint
 
@@ -163,5 +179,6 @@ class AppInstaller {
         self.appName = AppInstaller.getAppName(at: mountPoint)
         copyApps(from: mountPoint, to: "/Applications")
         unmountDMG(at: mountPoint)
+        removeExtendedAttributes(at: mountPoint)
     }
 }

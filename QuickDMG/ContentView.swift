@@ -25,7 +25,7 @@ struct ContentView: View {
     @State private var hasReceivedURL = false  // Track if we received a URL
 
     var progressTotal: Double = 1.0
-    var installer = AppInstaller()
+    let installer = AppInstaller()
 
     var body: some View {
         VStack(spacing: 20) {
@@ -51,6 +51,24 @@ struct ContentView: View {
             if !hasReceivedURL {
                 openFilePicker()
             }
+            // Add NotificationCenter observer for installerProgress
+            NotificationCenter.default.addObserver(forName: .installerProgress, object: nil, queue: .main) { note in
+                if let currentProgress = note.userInfo?["progress"] as? Double {
+                    Task { @MainActor in
+                        let appName = await installer.appName ?? "Application"
+                        progress.progress = currentProgress
+                        progress.message = foramtProgress(
+                            currentProgress,
+                            appname: appName
+                        )
+                        if currentProgress == 1.0 {
+                            progress.message = "Installation Complete!"
+                            try? await Task.sleep(nanoseconds: 1_000_000_000)
+                            NSApplication.shared.terminate(nil)
+                        }
+                    }
+                }
+            }
         }
         .padding(.bottom)
 
@@ -62,22 +80,8 @@ struct ContentView: View {
         progress.message = "Starting installation from: \(path)"
         progress.progress = 0.0
 
-        DispatchQueue.global(qos: .background).async {
-            installer.handleDMGFile(path: path) { currentProgress in
-                DispatchQueue.main.async {
-                    print("Progress updated: \(currentProgress)")
-                    progress.progress = currentProgress
-                    progress.message = foramtProgress(
-                        currentProgress,
-                        appname: installer.appName ?? "Applicaton"
-                    )
-
-                    if currentProgress == 1.0 {
-                        progress.message = "Installation Complete!"
-                        NSApplication.shared.terminate(nil)
-                    }
-                }
-            }
+        Task {
+            await installer.handleDMGFile(path: path)
         }
     }
 
