@@ -1,5 +1,6 @@
 
 import Foundation
+import AppKit
 
 extension Notification.Name {
     static let installerProgress = Notification.Name("installerProgress")
@@ -171,14 +172,96 @@ actor AppInstaller {
 
     }
 
+    private func findFirstFile(withExtension ext: String, in directory: String) -> String? {
+        let fileManager = FileManager.default
+        if let enumerator = fileManager.enumerator(atPath: directory) {
+            for case let file as String in enumerator {
+                if file.lowercased().hasSuffix(".\(ext.lowercased())") {
+                    return (directory as NSString).appendingPathComponent(file)
+                }
+            }
+        }
+        return nil
+    }
+
+    private func silentUnmountDMG(at mountPoint: String) {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
+        process.arguments = ["detach", mountPoint, "-force"]
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+            print("Silently unmounted \(mountPoint)")
+        } catch {
+            print("Failed to silently unmount the DMG: \(error)")
+        }
+    }
+
     public func handleDMGFile(path: String) async {
         let mountPoint = "/Volumes/tmp" + UUID().uuidString
         self.mountedDMGPath = mountPoint
 
         mountDMG(at: path, to: mountPoint)
-        self.appName = AppInstaller.getAppName(at: mountPoint)
-        copyApps(from: mountPoint, to: "/Applications")
-        unmountDMG(at: mountPoint)
-        removeExtendedAttributes(at: mountPoint)
+
+        // Look for a .pkg file first
+        if let pkgPath = findFirstFile(withExtension: "pkg", in: mountPoint) {
+            print("Found PKG file: \(pkgPath)")
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempPkgName = UUID().uuidString + "-" + URL(fileURLWithPath: pkgPath).lastPathComponent
+            let tempPkgURL = tempDir.appendingPathComponent(tempPkgName)
+
+            do {
+                print("Copying PKG to temporary directory: \(tempPkgURL.path)")
+                try FileManager.default.copyItem(atPath: pkgPath, toPath: tempPkgURL.path)
+
+                silentUnmountDMG(at: mountPoint)
+                handlePKGFile(path: tempPkgURL.path)
+
+            } catch {
+                print("Failed to copy PKG file: \(error)")
+                silentUnmountDMG(at: mountPoint)
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": 0.0, "message": "PKG installation failed."])
+                }
+            }
+        } else {
+            // No .pkg found, fall back to .app logic
+            print("No PKG file found, looking for .app files.")
+            self.appName = AppInstaller.getAppName(at: mountPoint)
+            copyApps(from: mountPoint, to: "/Applications")
+
+            if let appName = self.appName, appName != "Application" {
+                let appPath = ("/Applications" as NSString).appendingPathComponent(appName)
+                print("Removing extended attributes from \(appPath)")
+                removeExtendedAttributes(at: appPath)
+            }
+
+            // This unmount will post the final notification and terminate the app
+            unmountDMG(at: mountPoint)
+        }
+    }
+
+    public func handlePKGFile(path: String) {
+        let url = URL(fileURLWithPath: path)
+
+        self.progress = 0.5
+        let progressForNotification = self.progress
+
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": progressForNotification])
+
+            let configuration = NSWorkspace.OpenConfiguration()
+            configuration.activates = true
+
+            NSWorkspace.shared.open(url, configuration: configuration) { _, error in
+                if let error = error {
+                    print("Failed to open PKG file: \(error.localizedDescription)")
+                    NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": 0.0])
+                } else {
+                    NotificationCenter.default.post(name: .installerProgress, object: nil, userInfo: ["progress": 1.0])
+                }
+            }
+        }
     }
 }

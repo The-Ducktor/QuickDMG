@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 class InstallationProgress: ObservableObject {
     @Published var progress: Double = 0.0
@@ -10,11 +11,11 @@ func foramtProgress(_ progress: Double, appname: String = "Application")
 {
 
     if progress > 0.2 && progress < 0.8 {
-        return "Copying \"\(appname)\"..."
+        return "Installing..."
     } else if progress > 0.8 {
         return "Finishing up..."
     } else if progress < 0.2 {
-        return "Mounting DMG..."
+        return "Preparing..."
     }
     return "Starting installation..."
 }
@@ -81,13 +82,17 @@ struct ContentView: View {
         progress.progress = 0.0
 
         Task {
-            await installer.handleDMGFile(path: path)
+            if path.lowercased().hasSuffix(".dmg") {
+                await installer.handleDMGFile(path: path)
+            } else if path.lowercased().hasSuffix(".pkg") {
+                await installer.handlePKGFile(path: path)
+            }
         }
     }
 
     private func openFilePicker() {
         let openPanel = NSOpenPanel()
-        openPanel.allowedContentTypes = [.diskImage]
+        openPanel.allowedContentTypes = [.diskImage, .package]
         openPanel.allowsMultipleSelection = false
 
         if openPanel.runModal() == .OK, let url = openPanel.urls.first {
