@@ -45,6 +45,7 @@ final class AppInstaller: Sendable {
         isInstalling = false
     }
 
+
     private func handleDMGFile(at url: URL) async throws {
         updateProgress(0.1, message: "Mounting disk image...")
         
@@ -68,8 +69,11 @@ final class AppInstaller: Sendable {
             let appName = appURL.lastPathComponent
             self.appName = appName
             
-            updateProgress(0.4, message: "Preparing to copy \(appName)...")
+            updateProgress(0.15, message: "Calculating source integrity...")
+            let sourceHash = try await calculateBundleHash(at: appURL)
+            print("Source Hash: \(sourceHash)")
             
+            updateProgress(0.4, message: "Preparing to copy \(appName)...")
             let destinationURL = URL(fileURLWithPath: "/Applications").appendingPathComponent(appName)
             
             if try await performIO(body: { FileManager.default.fileExists(atPath: destinationURL.path) }) {
@@ -82,7 +86,15 @@ final class AppInstaller: Sendable {
             
             try await copyItemWithProgress(from: appURL, to: destinationURL)
             
-            updateProgress(0.9, message: "Cleaning up...")
+            updateProgress(0.9, message: "Verifying destination integrity...")
+            let destHash = try await calculateBundleHash(at: destinationURL)
+            print("Destination Hash: \(destHash)")
+            
+            if sourceHash != destHash {
+                print("Warning: Integrity mismatch! Source [\(sourceHash)] vs Dest [\(destHash)]")
+            }
+            
+            updateProgress(0.95, message: "Cleaning up...")
             try await performIO {
                 Self.removeExtendedAttributes(at: destinationURL.path)
             }
@@ -159,11 +171,12 @@ final class AppInstaller: Sendable {
         }
     }
 
+
     private func copyItemWithProgress(from source: URL, to destination: URL) async throws {
         // Prepare list of files to copy in background
         let (totalSize, filesToCopy) = try await performIO { () -> (Int64, [Pair<URL, URL>]) in
             let fileManager = FileManager.default
-            let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .fileSizeKey]
+            let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey, .fileSizeKey, .isDirectoryKey, .isSymbolicLinkKey]
             let enumerator = fileManager.enumerator(at: source, includingPropertiesForKeys: Array(resourceKeys))!
             
             var size: Int64 = 0
@@ -171,21 +184,24 @@ final class AppInstaller: Sendable {
             
             while let fileURL = enumerator.nextObject() as? URL {
                 let resourceValues = try fileURL.resourceValues(forKeys: resourceKeys)
+                
+                let relativePath = fileURL.path.replacingOccurrences(of: source.path, with: "")
+                let destFileURL = destination.appendingPathComponent(relativePath)
+                
                 if resourceValues.isRegularFile == true {
                     size += Int64(resourceValues.fileSize ?? 0)
-                    let relativePath = fileURL.path.replacingOccurrences(of: source.path, with: "")
-                    let destFileURL = destination.appendingPathComponent(relativePath)
                     files.append(Pair(fileURL, destFileURL))
-                } else {
-                    let relativePath = fileURL.path.replacingOccurrences(of: source.path, with: "")
-                    let destDirURL = destination.appendingPathComponent(relativePath)
-                    try fileManager.createDirectory(at: destDirURL, withIntermediateDirectories: true)
+                } else if resourceValues.isSymbolicLink == true {
+                    // Symlinks are tiny, but critical
+                    files.append(Pair(fileURL, destFileURL))
+                } else if resourceValues.isDirectory == true {
+                    try fileManager.createDirectory(at: destFileURL, withIntermediateDirectories: true)
                 }
             }
             
             if files.isEmpty {
                 let resourceValues = try source.resourceValues(forKeys: resourceKeys)
-                if resourceValues.isRegularFile == true {
+                if resourceValues.isRegularFile == true || resourceValues.isSymbolicLink == true {
                     size = Int64(resourceValues.fileSize ?? 0)
                     files.append(Pair(source, destination))
                 }
@@ -202,19 +218,63 @@ final class AppInstaller: Sendable {
         let startProgress = 0.5
         let endProgress = 0.9
         
-        for pair in filesToCopy {
-            let src = pair.first
-            let dest = pair.second
-            try await performIO {
-                try FileManager.default.createDirectory(at: dest.deletingLastPathComponent(), withIntermediateDirectories: true)
-                try FileManager.default.copyItem(at: src, to: dest)
+        // Concurrent copying with a limit
+        try await withThrowingTaskGroup(of: Int64.self) { group in
+            let concurrencyLimit = 8
+            var index = 0
+            
+            // Fill initial tasks
+            while index < min(concurrencyLimit, filesToCopy.count) {
+                let pair = filesToCopy[index]
+                group.addTask {
+                    try await self.performIO {
+                        try FileManager.default.copyItem(at: pair.first, to: pair.second)
+                        let values = try pair.first.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+                        return values.isRegularFile == true ? Int64(values.fileSize ?? 0) : 0
+                    }
+                }
+                index += 1
             }
             
-            let fileSize = try await performIO { Int64(try src.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0) }
-            copiedSize += fileSize
+            // Wait for tasks and add new ones
+            while let fileSize = try await group.next() {
+                copiedSize += fileSize
+                
+                let currentProgress = startProgress + (Double(copiedSize) / Double(max(1, totalSize))) * (endProgress - startProgress)
+                updateProgress(currentProgress, message: "Installing components...")
+                
+                if index < filesToCopy.count {
+                    let pair = filesToCopy[index]
+                    group.addTask {
+                        try await self.performIO {
+                            try FileManager.default.copyItem(at: pair.first, to: pair.second)
+                            let values = try pair.first.resourceValues(forKeys: [.fileSizeKey, .isRegularFileKey])
+                            return values.isRegularFile == true ? Int64(values.fileSize ?? 0) : 0
+                        }
+                    }
+                    index += 1
+                }
+            }
+        }
+    }
+
+    nonisolated
+    private func calculateBundleHash(at url: URL) async throws -> String {
+        return try await performIO {
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/bin/sh")
+            // Find all files, get their sha256, sort by path for consistency, and hash the results
+            process.arguments = ["-c", "find \"\(url.path)\" -type f -print0 | xargs -0 shasum -a 256 | sort | shasum -a 256"]
             
-            let currentProgress = startProgress + (Double(copiedSize) / Double(totalSize)) * (endProgress - startProgress)
-            updateProgress(currentProgress, message: "Copying \(src.lastPathComponent)...")
+            let outputPipe = Pipe()
+            process.standardOutput = outputPipe
+            
+            try process.run()
+            let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
+            
+            let result = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
+            return result?.components(separatedBy: " ").first ?? "unknown"
         }
     }
 
@@ -232,7 +292,7 @@ final class AppInstaller: Sendable {
     nonisolated private static func removeExtendedAttributes(at path: String) {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/xattr")
-        process.arguments = ["-c", "-x", path]
+        process.arguments = ["-cr", path] // -r for recursive is key for apps
         try? process.run()
         process.waitUntilExit()
     }
@@ -250,8 +310,9 @@ final class AppInstaller: Sendable {
         }
     }
 
+
     /// Helper to perform blocking I/O on a background thread
-    private func performIO<T: Sendable>(body: @escaping @Sendable () throws -> T) async throws -> T {
+    nonisolated private func performIO<T: Sendable>(body: @escaping @Sendable () throws -> T) async throws -> T {
         try await Task.detached(priority: .userInitiated) {
             try body()
         }.value
