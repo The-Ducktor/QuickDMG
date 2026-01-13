@@ -2,6 +2,7 @@
 import Foundation
 import AppKit
 import Observation
+import CryptoKit
 
 @Observable
 @MainActor
@@ -258,23 +259,33 @@ final class AppInstaller: Sendable {
         }
     }
 
-    nonisolated
     private func calculateBundleHash(at url: URL) async throws -> String {
         return try await performIO {
-            let process = Process()
-            process.executableURL = URL(fileURLWithPath: "/bin/sh")
-            // Find all files, get their sha256, sort by path for consistency, and hash the results
-            process.arguments = ["-c", "find \"\(url.path)\" -type f -print0 | xargs -0 shasum -a 256 | sort | shasum -a 256"]
+            var hash = SHA256()
+            let infoPlistURL = url.appendingPathComponent("Contents/Info.plist")
             
-            let outputPipe = Pipe()
-            process.standardOutput = outputPipe
+            // 1. Hash the Info.plist if it exists
+            if FileManager.default.fileExists(atPath: infoPlistURL.path),
+               let data = try? Data(contentsOf: infoPlistURL) {
+                hash.update(data: data)
+                
+                // 2. Try to find the executable name and hash the main binary
+                if let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
+                   let execName = plist["CFBundleExecutable"] as? String {
+                    let execURL = url.appendingPathComponent("Contents/MacOS").appendingPathComponent(execName)
+                    if FileManager.default.fileExists(atPath: execURL.path),
+                       let execData = try? Data(contentsOf: execURL, options: .mappedIfSafe) {
+                        hash.update(data: execData)
+                    }
+                }
+            } else {
+                // Fallback: If it's a single file or non-standard bundle, hash the item itself
+                if let data = try? Data(contentsOf: url, options: .mappedIfSafe) {
+                    hash.update(data: data)
+                }
+            }
             
-            try process.run()
-            let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
-            process.waitUntilExit()
-            
-            let result = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
-            return result?.components(separatedBy: " ").first ?? "unknown"
+            return hash.finalize().map { String(format: "%02x", $0) }.joined()
         }
     }
 
