@@ -22,9 +22,10 @@ struct ContentView: View {
             hasReceivedURL = true
             startInstallation(from: url)
         }
+
         .task {
-            // Short delay to see if onOpenURL fires
-            try? await Task.sleep(nanoseconds: 500_000_000)
+            // Wait slightly for onOpenURL to trigger
+            try? await Task.sleep(nanoseconds: 300_000_000)
             if !hasReceivedURL {
                 openFilePicker()
             }
@@ -41,8 +42,10 @@ struct ContentView: View {
     }
 
 
+
+
     private func startInstallation(from url: URL) {
-        Task { @MainActor in
+        Task {
             await installer.handleFile(at: url)
         }
     }
