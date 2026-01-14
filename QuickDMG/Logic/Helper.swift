@@ -259,28 +259,38 @@ final class AppInstaller: Sendable {
         }
     }
 
+
     private func calculateBundleHash(at url: URL) async throws -> String {
         return try await performIO {
-            var hash = SHA256()
-            let infoPlistURL = url.appendingPathComponent("Contents/Info.plist")
+            let fileManager = FileManager.default
+            let resourceKeys: Set<URLResourceKey> = [.isRegularFileKey]
             
-            // 1. Hash the Info.plist if it exists
-            if FileManager.default.fileExists(atPath: infoPlistURL.path),
-               let data = try? Data(contentsOf: infoPlistURL) {
-                hash.update(data: data)
-                
-                // 2. Try to find the executable name and hash the main binary
-                if let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
-                   let execName = plist["CFBundleExecutable"] as? String {
-                    let execURL = url.appendingPathComponent("Contents/MacOS").appendingPathComponent(execName)
-                    if FileManager.default.fileExists(atPath: execURL.path),
-                       let execData = try? Data(contentsOf: execURL, options: .mappedIfSafe) {
-                        hash.update(data: execData)
+            // 1. Collect all regular file URLs
+            var fileURLs: [URL] = []
+            if let enumerator = fileManager.enumerator(at: url, includingPropertiesForKeys: Array(resourceKeys), options: [.skipsHiddenFiles]) {
+                for case let fileURL as URL in enumerator {
+                    if let resourceValues = try? fileURL.resourceValues(forKeys: resourceKeys),
+                       resourceValues.isRegularFile == true {
+                        fileURLs.append(fileURL)
                     }
                 }
-            } else {
-                // Fallback: If it's a single file or non-standard bundle, hash the item itself
-                if let data = try? Data(contentsOf: url, options: .mappedIfSafe) {
+            } else if (try? url.resourceValues(forKeys: resourceKeys))?.isRegularFile == true {
+                fileURLs.append(url)
+            }
+            
+            // 2. Sort by relative path to ensure deterministic hashing
+            let sortedURLs = fileURLs.sorted { $0.path < $1.path }
+            
+            // 3. Hash content of each file
+            var hash = SHA256()
+            for fileURL in sortedURLs {
+                // Include relative path in hash to detect moves/renames
+                if let pathData = fileURL.path.replacingOccurrences(of: url.path, with: "").data(using: .utf8) {
+                    hash.update(data: pathData)
+                }
+                
+                // Read and hash file content efficiently
+                if let data = try? Data(contentsOf: fileURL, options: .mappedIfSafe) {
                     hash.update(data: data)
                 }
             }
